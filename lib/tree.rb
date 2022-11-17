@@ -63,6 +63,34 @@ class Tree
     false
   end
 
+  def delete(value, compared_node = @root)
+    delete_node = Node.new(value)
+    if found_value?(delete_node, compared_node)
+      if compared_node.right_child == nil
+        compared_node = compared_node.left_child
+        delete(compared_node.left_child.data, compared_node) unless compared_node == nil
+      end
+      if compared_node.left_child == nil
+        compared_node = compared_node.right_child
+        delete(compared_node.right_child.data, compared_node) unless compared_node == nil
+      end
+      pretty_print
+    else
+      puts "value does not exist"
+    end
+  end
+
+  def found_value?(delete_node, compared_node)
+    puts "incoming value: #{compared_node.data}"
+    until delete_node.data == compared_node.data
+      return nil if compared_node.left_child == nil && compared_node.right_child == nil
+
+      delete_node.data < compared_node.data ? compared_node = compared_node.left_child : compared_node = compared_node.right_child
+      puts "outgoing value: #{compared_node.data}"
+    end
+    compared_node
+  end
+
 end
 
 tree = Tree.new([1,7,4,23,8,9,4,3,5,7,9,67,6345,324])
@@ -75,3 +103,5 @@ tree.insert(290)
 tree.insert(311)
 tree.insert(291)
 tree.insert(289)
+tree.insert(24)
+tree.delete(9)
