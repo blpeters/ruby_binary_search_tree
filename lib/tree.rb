@@ -30,6 +30,48 @@ class Tree
     puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
     pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
   end
+
+  def insert(value)
+    insert_node = Node.new(value)
+    compared_node = @root
+    compare_left(insert_node, compared_node) ? return : compare_right(insert_node, compared_node)
+  end
+
+  def compare_left(insert_node, compared_node)
+    while insert_node.data < compared_node.data do
+      if compared_node.left_child == nil
+        compared_node.left_child = insert_node
+        pretty_print
+        return true
+      end
+      compared_node = compared_node.left_child
+    end
+    compare_right(insert_node, compared_node) if insert_node.data > compared_node.data
+    false
+  end
+
+  def compare_right(insert_node, compared_node)
+    while insert_node.data > compared_node.data do
+      if compared_node.right_child == nil
+        compared_node.right_child = insert_node
+        pretty_print
+        return true
+      end
+      compared_node = compared_node.right_child
+    end
+    compare_left(insert_node, compared_node) if insert_node.data < compared_node.data
+    false
+  end
+
 end
 
 tree = Tree.new([1,7,4,23,8,9,4,3,5,7,9,67,6345,324])
+tree.insert(0)
+tree.insert(-5)
+tree.insert(6346)
+tree.insert(300)
+tree.insert(310)
+tree.insert(290)
+tree.insert(311)
+tree.insert(291)
+tree.insert(289)
