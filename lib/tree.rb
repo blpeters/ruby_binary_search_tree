@@ -82,6 +82,53 @@ class Tree
     p current_node
   end
 
+  def level_order(block)
+    # should traverse the tree in breadth-firstl level order and yield each
+    # node to the provided block.
+    # Can be done with iteration or recursion - DO BOTH!!!
+    # Return an ARRAY of values if no block is given.
+    # Use an array acting as a queue to keep track of all the child nodes 
+    # that you have yet to traverse and to add new ones to the list.
+  end
+
+  def inorder(block)
+    # Each block should traverse the tree in their respective depth-first order
+    # and yield each node to the provided block.
+    # Return an array of values if no block given.
+  end
+
+  def preorder(block)
+    # Each block should traverse the tree in their respective depth-first order
+    # and yield each node to the provided block.
+    # Return an array of values if no block given.
+  end
+
+  def postorder(block)
+    # Each block should traverse the tree in their respective depth-first order
+    # and yield each node to the provided block.
+    # Return an array of values if no block given.
+  end
+
+  def height(node)
+    # accepts a node and returns its height
+    # height is defined as the number of edges in longest path from a given node to a leaf node.
+    # Basically, How much tree is left?
+  end
+
+  def depth(node)
+    # accepts a node and returns its depth.
+    # depth is defined as the number of edges in path from a given node to the tree's root node.
+    # Basically, how far down in the tree are you?
+  end
+
+  def balanced?
+    # balanced only if the heights of left subtree and right subtree OF EVERY NODE is not more than 1.
+  end
+
+  def rebalance
+    # rebalances an unbalanced tree
+    # Use a traversal method to provide a new array to the build_tree method.
+  end
 end
 
 
