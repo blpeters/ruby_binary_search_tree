@@ -4,6 +4,9 @@ require_relative 'node'
 
 # Class that will build a binary search tree using nodes from node.rb
 class Tree
+
+  attr_reader :root
+
   def initialize(arr)
     @arr = clean_array(arr)
     @root = build_tree(@arr, 0, @arr.length - 1)
@@ -63,35 +66,24 @@ class Tree
     false
   end
 
-  def delete(value, compared_node = @root)
-    delete_node = Node.new(value)
-    if found_value?(delete_node, compared_node)
-      if compared_node.right_child == nil
-        compared_node = compared_node.left_child
-        delete(compared_node.left_child.data, compared_node) unless compared_node == nil
-      end
-      if compared_node.left_child == nil
-        compared_node = compared_node.right_child
-        delete(compared_node.right_child.data, compared_node) unless compared_node == nil
-      end
-      pretty_print
-    else
-      puts "value does not exist"
-    end
-  end
+  # TODO: delete method with the following pseudocode:
+  # Node to be deleted is the leaf: Simply remove from the tree.
+  # Node to be deleted has only one child: Copy the child to the node and delete the child
+  # Node to be deleted has two children: Find inorder successor of the node. 
+  # Copy contents of the inorder successor to the node and delete the inorder successor.
+  # Note that inorder predecessor can also be used.
 
-  def found_value?(delete_node, compared_node)
-    puts "incoming value: #{compared_node.data}"
-    until delete_node.data == compared_node.data
-      return nil if compared_node.left_child == nil && compared_node.right_child == nil
-
-      delete_node.data < compared_node.data ? compared_node = compared_node.left_child : compared_node = compared_node.right_child
-      puts "outgoing value: #{compared_node.data}"
+  def find(value)
+    current_node = @root
+    until (value == current_node.data || current_node == nil)
+      current_node = current_node.left_child if value < current_node.data
+      current_node = current_node.right_child if value > current_node.data
     end
-    compared_node
+    p current_node
   end
 
 end
+
 
 tree = Tree.new([1,7,4,23,8,9,4,3,5,7,9,67,6345,324])
 tree.insert(0)
@@ -104,4 +96,8 @@ tree.insert(311)
 tree.insert(291)
 tree.insert(289)
 tree.insert(24)
-tree.delete(9)
+# tree.delete(9)
+# tree.pretty_print
+# tree.delete(300)
+# tree.pretty_print
+tree.find(6345)
