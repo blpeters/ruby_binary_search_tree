@@ -72,6 +72,44 @@ class Tree
   # Node to be deleted has two children: Find inorder successor of the node. 
   # Copy contents of the inorder successor to the node and delete the inorder successor.
   # Note that inorder predecessor can also be used.
+  def delete(value, root = @root)
+    return nil if root == nil
+    if value < root.data
+      root.left_child = delete(value, root.left_child)
+    elsif value > root.data
+      root.right_child = delete(value, root.right_child)
+    else # This means the value is a match for the root data.
+      
+      # Case where root has no children
+      if root.left_child == nil && root.right_child == nil
+        return nil
+
+      # Case where root has one child
+      elsif root.left_child == nil
+        return root.right_child
+      elsif root.right_child == nil
+        return root.left_child
+      end
+
+      # Case where root has both children
+      temp = findInorderSuccessor(root)
+      root.data = temp
+      root.right_child = delete(temp, root.right_child)
+    
+    end
+
+    root
+  end
+
+  def findInorderSuccessor(node)
+    current_node = node.right_child
+    while current_node.left_child != nil
+      current_node = current_node.left_child
+    end
+    return current_node.data
+  end
+
+
 
   def find(value)
     current_node = @root
@@ -143,8 +181,8 @@ tree.insert(311)
 tree.insert(291)
 tree.insert(289)
 tree.insert(24)
-# tree.delete(9)
-# tree.pretty_print
-# tree.delete(300)
-# tree.pretty_print
+tree.delete(9)
+tree.pretty_print
+tree.delete(324)
+tree.pretty_print
 tree.find(6345)
