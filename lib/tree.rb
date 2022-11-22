@@ -100,7 +100,7 @@ class Tree
     while current_node.left_child != nil
       current_node = current_node.left_child
     end
-    return current_node.data
+    current_node.data
   end
 
   def find(value)
@@ -109,23 +109,16 @@ class Tree
       current_node = current_node.left_child if value < current_node.data
       current_node = current_node.right_child if value > current_node.data
     end
-    p current_node
+    current_node
   end
 
   def level_order(root = @root)
-    # should traverse the tree in breadth-firstl level order and yield each
-    # node to the provided block.
-    # Can be done with iteration or recursion - DO BOTH!!!
-    # Return an ARRAY of values if no block is given.
-    # Use an array acting as a queue to keep track of all the child nodes 
-    # that you have yet to traverse and to add new ones to the list.
 
-    # if the tree is empty, return
+    # TODO - Can be done with iteration or recursion - DO BOTH!!!
+
     return nil if root == nil
 
     result = []
-
-    # make a queue of discovered nodes. push and shift these nodes for first in, first out behavior.
     queue = [root]
 
     while queue.any? do
@@ -135,8 +128,7 @@ class Tree
       queue.push(current_node.right_child) if current_node.right_child
     end
 
-    # Once the queue is empty, we are done with the traversal = return the result whether passed through a block or not.
-    result
+    result unless block_given?
   end
 
   def preorder(root = @root, result = [], &block)
