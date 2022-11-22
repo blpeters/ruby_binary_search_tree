@@ -66,12 +66,6 @@ class Tree
     false
   end
 
-  # TODO: delete method with the following pseudocode:
-  # Node to be deleted is the leaf: Simply remove from the tree.
-  # Node to be deleted has only one child: Copy the child to the node and delete the child
-  # Node to be deleted has two children: Find inorder successor of the node. 
-  # Copy contents of the inorder successor to the node and delete the inorder successor.
-  # Note that inorder predecessor can also be used.
   def delete(value, root = @root)
     return nil if root == nil
     if value < root.data
@@ -109,8 +103,6 @@ class Tree
     return current_node.data
   end
 
-
-
   def find(value)
     current_node = @root
     until (value == current_node.data || current_node == nil)
@@ -120,28 +112,48 @@ class Tree
     p current_node
   end
 
-  def level_order(block)
+  def level_order(root = @root)
     # should traverse the tree in breadth-firstl level order and yield each
     # node to the provided block.
     # Can be done with iteration or recursion - DO BOTH!!!
     # Return an ARRAY of values if no block is given.
     # Use an array acting as a queue to keep track of all the child nodes 
     # that you have yet to traverse and to add new ones to the list.
+
+    # if the tree is empty, return
+    return nil if root == nil
+
+    result = []
+
+    # make a queue of discovered nodes. push and shift these nodes for first in, first out behavior.
+    queue = [root]
+
+    while queue.any? do
+      current_node = queue.shift
+      block_given? ? yield(current_node) : result.push(current_node.data)
+      queue.push(current_node.left_child) if current_node.left_child
+      queue.push(current_node.right_child) if current_node.right_child
+    end
+
+    # Once the queue is empty, we are done with the traversal = return the result whether passed through a block or not.
+    result
   end
 
-  def inorder(block)
+  def inorder(root = @root, result = [])
+    # Each block should traverse the tree in their respective depth-first order
+    # and yield each node to the provided block.
+    # Return an array of values if no block given.
+
+    result
+  end
+
+  def preorder(root = @root, result = [])
     # Each block should traverse the tree in their respective depth-first order
     # and yield each node to the provided block.
     # Return an array of values if no block given.
   end
 
-  def preorder(block)
-    # Each block should traverse the tree in their respective depth-first order
-    # and yield each node to the provided block.
-    # Return an array of values if no block given.
-  end
-
-  def postorder(block)
+  def postorder(root = @root, result = [])
     # Each block should traverse the tree in their respective depth-first order
     # and yield each node to the provided block.
     # Return an array of values if no block given.
@@ -186,3 +198,6 @@ tree.pretty_print
 tree.delete(324)
 tree.pretty_print
 tree.find(6345)
+tree.level_order do |node|
+   puts "current data: #{node.data}"
+end
