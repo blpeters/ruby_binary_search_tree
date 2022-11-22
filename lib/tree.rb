@@ -139,24 +139,34 @@ class Tree
     result
   end
 
-  def inorder(root = @root, result = [])
-    # Each block should traverse the tree in their respective depth-first order
-    # and yield each node to the provided block.
-    # Return an array of values if no block given.
+  def preorder(root = @root, result = [], &block)
+    return if root == nil
 
-    result
+    block_given? ? yield(root) : result << root.data
+    preorder(root.left_child, result, &block)
+    preorder(root.right_child, result, &block)
+
+    result unless block_given?
+  end
+  
+  def inorder(root = @root, result = [], &block)
+    return if root == nil
+
+    inorder(root.left_child, result, &block)
+    block_given? ? yield(root) : result << root.data
+    inorder(root.right_child, result, &block)
+
+    result unless block_given?
   end
 
-  def preorder(root = @root, result = [])
-    # Each block should traverse the tree in their respective depth-first order
-    # and yield each node to the provided block.
-    # Return an array of values if no block given.
-  end
+  def postorder(root = @root, result = [], &block)
+    return if root == nil
 
-  def postorder(root = @root, result = [])
-    # Each block should traverse the tree in their respective depth-first order
-    # and yield each node to the provided block.
-    # Return an array of values if no block given.
+    postorder(root.left_child, result, &block)
+    postorder(root.right_child, result, &block)
+    block_given? ? yield(root) : result << root.data
+
+    result unless block_given?
   end
 
   def height(node)
@@ -181,6 +191,7 @@ class Tree
   end
 end
 
+node_it = Proc.new {|node| puts "it's node #{node.data}"}
 
 tree = Tree.new([1,7,4,23,8,9,4,3,5,7,9,67,6345,324])
 tree.insert(0)
@@ -201,3 +212,6 @@ tree.find(6345)
 tree.level_order do |node|
    puts "current data: #{node.data}"
 end
+p tree.preorder
+p tree.inorder
+p tree.postorder
