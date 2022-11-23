@@ -170,10 +170,16 @@ class Tree
     
   end
 
-  def depth(node)
-    # accepts a node and returns its depth.
-    # depth is defined as the number of edges in path from a given node to the tree's root node.
-    # Basically, how far down in the tree are you?
+  def depth(node, current_node = @root)
+    return 0 if node == current_node
+
+    depth = 0
+    while true
+      node.data < current_node.data ? current_node = current_node.left_child : current_node = current_node.right_child
+      depth += 1
+      break if node == current_node
+    end
+    depth
   end
 
   def balanced?
@@ -212,3 +218,7 @@ p tree.inorder
 p tree.postorder
 puts tree.height(tree.find(6345))
 puts tree.height(tree.find(8))
+puts tree.depth(tree.find(6345))
+puts tree.depth(tree.find(8))
+puts tree.depth(tree.find(310))
+puts tree.depth(tree.find(311))
