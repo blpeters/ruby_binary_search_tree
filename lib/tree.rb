@@ -162,9 +162,12 @@ class Tree
   end
 
   def height(node)
-    # accepts a node and returns its height
-    # height is defined as the number of edges in longest path from a given node to a leaf node.
-    # Basically, How much tree is left?
+    return -1 if node == nil
+
+    left = height(node.left_child)
+    right = height(node.right_child)
+    return 1 + [left, right].max
+    
   end
 
   def depth(node)
@@ -207,3 +210,5 @@ end
 p tree.preorder
 p tree.inorder
 p tree.postorder
+puts tree.height(tree.find(6345))
+puts tree.height(tree.find(8))
