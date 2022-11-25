@@ -198,14 +198,14 @@ class Tree
     else
       puts "failing difference: #{difference}"
       puts "failing root: #{root.data}"
-      puts "returning false"
       return false
     end
   end
 
   def rebalance
-    # rebalances an unbalanced tree
-    # Use a traversal method to provide a new array to the build_tree method.
+    new_ordered_arr = inorder
+    p new_ordered_arr
+    @root = build_tree(new_ordered_arr, 0, new_ordered_arr.length - 1)
   end
 end
 
@@ -240,3 +240,9 @@ puts tree.depth(tree.find(8))
 puts tree.depth(tree.find(310))
 puts tree.depth(tree.find(311))
 puts tree.balanced?
+tree.pretty_print
+tree.rebalance
+tree.pretty_print
+puts tree.balanced?
+
+
