@@ -182,8 +182,25 @@ class Tree
     depth
   end
 
-  def balanced?
+  def depth_recursive(node, current_node = @root)
+    # use steps from the iterative depth function above to make a recursive option.
+  end
+
+  def balanced?(root = @root)
     # balanced only if the heights of left subtree and right subtree OF EVERY NODE is not more than 1.
+    return true if root == nil || (root.left_child == nil && root.right_child == nil)
+
+    difference = height(root.left_child) - height(root.right_child)
+    puts difference
+    if [-1,0,1].include?(difference)
+      balanced?(root.left_child)
+      balanced?(root.right_child)
+    else
+      puts "failing difference: #{difference}"
+      puts "failing root: #{root.data}"
+      puts "returning false"
+      return false
+    end
   end
 
   def rebalance
@@ -222,3 +239,4 @@ puts tree.depth(tree.find(6345))
 puts tree.depth(tree.find(8))
 puts tree.depth(tree.find(310))
 puts tree.depth(tree.find(311))
+puts tree.balanced?
